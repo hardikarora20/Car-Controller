@@ -31,9 +31,9 @@
             font-size: 18px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             transition: background-color 0.3s, transform 0.1s;
-            outline: none; /* Remove blue highlight */
-            user-select: none; /* Prevent text selection */
-            -webkit-tap-highlight-color: transparent; /* Remove touch highlight */
+            outline: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .fullscreen-btn:active {
@@ -66,14 +66,14 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             transition: background-color 0.3s, transform 0.1s, box-shadow 0.1s;
             font-family: inherit;
-            outline: none; /* Remove blue highlight */
-            user-select: none; /* Prevent text selection */
-            -webkit-tap-highlight-color: transparent; /* Remove touch highlight */
+            outline: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .control-panel button:active {
             transform: scale(0.95);
-            box-shadow: none; /* Remove shadow on active state */
+            box-shadow: none;
         }
 
         .control-panel button:hover {
@@ -99,16 +99,22 @@
             grid-row: 2;
         }
 
+        .stop {
+            grid-column: 2;
+            grid-row: 2;
+            background-color: #ff0000;
+        }
+
         @media (max-width: 600px) {
             .control-panel {
-                grid-template-columns: repeat(3, 80px);
-                grid-template-rows: repeat(3, 80px);
-                gap: 10px;
+                grid-template-columns: repeat(3, 120px);
+                grid-template-rows: repeat(3, 120px);
+                gap: 20px;
             }
 
             .control-panel button {
-                padding: 15px;
-                font-size: 20px;
+                padding: 25px;
+                font-size: 28px;
             }
 
             .fullscreen-btn {
@@ -135,6 +141,7 @@
     <div class="control-panel">
         <button class="forward" id="forwardButton">&#9650;</button>
         <button class="left" id="leftButton">&#9664;</button>
+        <button class="stop" id="stopButton">&#x25A0;</button>
         <button class="right" id="rightButton">&#9654;</button>
         <button class="backward" id="backwardButton">&#9660;</button>
     </div>
@@ -158,10 +165,14 @@
         function onRightPress() { sendRequest('http://192.168.4.1/?State=R'); }
         function onRightRelease() { sendRequest('http://192.168.4.1/?State=S'); }
 
+        function onStopPress() { sendRequest('http://192.168.4.1/?State=S'); }
+        function onStopRelease() { sendRequest('http://192.168.4.1/?State=S'); }
+
         const forwardButton = document.getElementById('forwardButton');
         const backwardButton = document.getElementById('backwardButton');
         const leftButton = document.getElementById('leftButton');
         const rightButton = document.getElementById('rightButton');
+        const stopButton = document.getElementById('stopButton');
         const fullscreenButton = document.getElementById('fullscreenButton');
 
         forwardButton.addEventListener('mousedown', onForwardPress);
@@ -187,6 +198,12 @@
         rightButton.addEventListener('mouseleave', onRightRelease);
         rightButton.addEventListener('touchstart', onRightPress);
         rightButton.addEventListener('touchend', onRightRelease);
+
+        stopButton.addEventListener('mousedown', onStopPress);
+        stopButton.addEventListener('mouseup', onStopRelease);
+        stopButton.addEventListener('mouseleave', onStopRelease);
+        stopButton.addEventListener('touchstart', onStopPress);
+        stopButton.addEventListener('touchend', onStopRelease);
 
         fullscreenButton.addEventListener('click', () => {
             if (!document.fullscreenElement) {
