@@ -166,21 +166,25 @@
 
         forwardButton.addEventListener('mousedown', onForwardPress);
         forwardButton.addEventListener('mouseup', onForwardRelease);
+        forwardButton.addEventListener('mouseleave', onForwardRelease);
         forwardButton.addEventListener('touchstart', onForwardPress);
         forwardButton.addEventListener('touchend', onForwardRelease);
 
         backwardButton.addEventListener('mousedown', onBackwardPress);
         backwardButton.addEventListener('mouseup', onBackwardRelease);
+        backwardButton.addEventListener('mouseleave', onBackwardRelease);
         backwardButton.addEventListener('touchstart', onBackwardPress);
         backwardButton.addEventListener('touchend', onBackwardRelease);
 
         leftButton.addEventListener('mousedown', onLeftPress);
         leftButton.addEventListener('mouseup', onLeftRelease);
+        leftButton.addEventListener('mouseleave', onLeftRelease);
         leftButton.addEventListener('touchstart', onLeftPress);
         leftButton.addEventListener('touchend', onLeftRelease);
 
         rightButton.addEventListener('mousedown', onRightPress);
         rightButton.addEventListener('mouseup', onRightRelease);
+        rightButton.addEventListener('mouseleave', onRightRelease);
         rightButton.addEventListener('touchstart', onRightPress);
         rightButton.addEventListener('touchend', onRightRelease);
 
