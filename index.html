@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Control Panel</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Poppins', 'Century Gothic', sans-serif;
+        }
+
+        .fullscreen-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #1f1f1f;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, transform 0.1s;
+            outline: none; /* Remove blue highlight */
+            user-select: none; /* Prevent text selection */
+            -webkit-tap-highlight-color: transparent; /* Remove touch highlight */
+        }
+
+        .fullscreen-btn:active {
+            transform: scale(0.95);
+        }
+
+        .fullscreen-btn:hover {
+            background-color: #333333;
+        }
+
+        .fullscreen-btn .icon {
+            margin-right: 5px;
+        }
+
+        .control-panel {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 15px;
+        }
+
+        .control-panel button {
+            padding: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            border: none;
+            background-color: #1f1f1f;
+            color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.1s, box-shadow 0.1s;
+            font-family: inherit;
+            outline: none; /* Remove blue highlight */
+            user-select: none; /* Prevent text selection */
+            -webkit-tap-highlight-color: transparent; /* Remove touch highlight */
+        }
+
+        .control-panel button:active {
+            transform: scale(0.95);
+            box-shadow: none; /* Remove shadow on active state */
+        }
+
+        .control-panel button:hover {
+            background-color: #333333;
+        }
+
+        .forward {
+            grid-column: 2;
+        }
+
+        .backward {
+            grid-column: 2;
+            grid-row: 3;
+        }
+
+        .left {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .right {
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        @media (max-width: 600px) {
+            .control-panel {
+                grid-template-columns: repeat(3, 80px);
+                grid-template-rows: repeat(3, 80px);
+                gap: 10px;
+            }
+
+            .control-panel button {
+                padding: 15px;
+                font-size: 20px;
+            }
+
+            .fullscreen-btn {
+                font-size: 16px;
+                padding: 8px 16px;
+            }
+
+            .fullscreen-btn .icon {
+                display: block;
+                margin-right: 0;
+            }
+
+            .fullscreen-btn .text {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="fullscreen-btn" id="fullscreenButton">
+        <span class="icon">&#x26F6;</span>
+        <span class="text">Full Screen</span>
+    </button>
+    <div class="control-panel">
+        <button class="forward" id="forwardButton">&#9650;</button>
+        <button class="left" id="leftButton">&#9664;</button>
+        <button class="right" id="rightButton">&#9654;</button>
+        <button class="backward" id="backwardButton">&#9660;</button>
+    </div>
+
+    <script>
+        function sendRequest(url) {
+            fetch(url)
+                .then(response => console.log(`Request sent to ${url}`))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function onForwardPress() { sendRequest('http://192.168.4.1/?State=F'); }
+        function onForwardRelease() { sendRequest('http://192.168.4.1/?State=S'); }
+
+        function onBackwardPress() { sendRequest('http://192.168.4.1/?State=B'); }
+        function onBackwardRelease() { sendRequest('http://192.168.4.1/?State=S'); }
+
+        function onLeftPress() { sendRequest('http://192.168.4.1/?State=L'); }
+        function onLeftRelease() { sendRequest('http://192.168.4.1/?State=S'); }
+
+        function onRightPress() { sendRequest('http://192.168.4.1/?State=R'); }
+        function onRightRelease() { sendRequest('http://192.168.4.1/?State=S'); }
+
+        const forwardButton = document.getElementById('forwardButton');
+        const backwardButton = document.getElementById('backwardButton');
+        const leftButton = document.getElementById('leftButton');
+        const rightButton = document.getElementById('rightButton');
+        const fullscreenButton = document.getElementById('fullscreenButton');
+
+        forwardButton.addEventListener('mousedown', onForwardPress);
+        forwardButton.addEventListener('mouseup', onForwardRelease);
+        forwardButton.addEventListener('touchstart', onForwardPress);
+        forwardButton.addEventListener('touchend', onForwardRelease);
+
+        backwardButton.addEventListener('mousedown', onBackwardPress);
+        backwardButton.addEventListener('mouseup', onBackwardRelease);
+        backwardButton.addEventListener('touchstart', onBackwardPress);
+        backwardButton.addEventListener('touchend', onBackwardRelease);
+
+        leftButton.addEventListener('mousedown', onLeftPress);
+        leftButton.addEventListener('mouseup', onLeftRelease);
+        leftButton.addEventListener('touchstart', onLeftPress);
+        leftButton.addEventListener('touchend', onLeftRelease);
+
+        rightButton.addEventListener('mousedown', onRightPress);
+        rightButton.addEventListener('mouseup', onRightRelease);
+        rightButton.addEventListener('touchstart', onRightPress);
+        rightButton.addEventListener('touchend', onRightRelease);
+
+        fullscreenButton.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
